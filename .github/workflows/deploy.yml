@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      APP_PATH: ${{ secrets.APP_PATH  }}
+      APP_PATH: /home/osi/youtubesplitterapp
 
     steps:
       - name: Checkout code
@@ -24,20 +24,18 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           port: ${{ secrets.VM_PORT }}
           script: |
-            if [ ! -d /home/osi/youtubesplitterapp ]; then
-              git clone https://github.com/vicradon/youtubesplitterapp.git /home/osi/youtubesplitterapp
+            if [ ! -d $APP_PATH ]; then
+              git clone https://github.com/vicradon/youtubesplitterapp.git $APP_PATH
             else
-              cd /home/osi/youtubesplitterapp
+              cd $APP_PATH
               git pull origin main
             fi
 
-            cd /home/osi/youtubesplitterapp
+            cd $APP_PATH
             python3 -m venv .venv
-            source /home/osi/youtubesplitterapp/.venv/bin/activate
+            source $APP_PATH/.venv/bin/activate
             pip install -r requirements.txt
 
             echo "export TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> ~/.bashrc
             echo "export VIDEO_CHANNEL_ID=${{ secrets.VIDEO_CHANNEL_ID }}" >> ~/.bashrc
             source ~/.bashrc
-
-            python app.py
