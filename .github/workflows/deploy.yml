@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      APP_PATH: /home/osi/youtubesplitterapp
-      VIRTUAL_ENV: /home/osi/youtubesplitterapp/.venv
+      APP_PATH: ${{ secrets.APP_PATH  }}
+      VIRTUAL_ENV: ${{ secrets.APP_PATH  }}/.venv
 
     steps:
       - name: Checkout code
@@ -26,7 +26,7 @@ jobs:
           port: ${{ secrets.VM_PORT }}
           script: |
             if [ ! -d "$APP_PATH" ]; then
-              git clone https://github.com/yourusername/yourrepo.git $APP_PATH
+              git clone https://github.com/vicradon/youtubesplitterapp.git $APP_PATH
             else
               cd $APP_PATH
               git pull origin main
@@ -40,6 +40,4 @@ jobs:
             echo "export VIDEO_CHANNEL_ID=${{ secrets.VIDEO_CHANNEL_ID }}" >> ~/.bashrc
             source ~/.bashrc
 
-            sudo supervisorctl reread
-            sudo supervisorctl update
-            sudo supervisorctl restart myflaskapp
+            python app.py
