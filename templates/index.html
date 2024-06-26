@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Segments Form</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>YouTube Video Splitter</h1>
+      <form action="/" method="POST">
+        <label for="url">Enter YouTube Video URL:</label>
+        <input type="url" id="url" name="url" required />
+        <label for="segments">Number of Segments:</label>
+        <input type="number" id="segments" name="segments" min="1" required />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <script>
+      const segmentsCountInput = document.querySelector("#segments");
+      const invalidChars = ["-", "+", "e", ".", "E"];
+      console.log(segmentsCountInput);
+      segmentsCountInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[e\+\-\.]/gi, "");
+      });
+
+      segmentsCountInput.addEventListener("keydown", function (e) {
+        if (invalidChars.includes(e.key)) {
+          e.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>

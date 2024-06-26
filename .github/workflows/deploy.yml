@@ -1,0 +1,45 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      APP_PATH: /home/osi/youtubesplitterapp
+      VIRTUAL_ENV: /home/osi/youtubesplitterapp/.venv
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to VM via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_PORT }}
+          script: |
+            if [ ! -d "$APP_PATH" ]; then
+              git clone https://github.com/yourusername/yourrepo.git $APP_PATH
+            else
+              cd $APP_PATH
+              git pull origin main
+            fi
+
+            cd $APP_PATH
+            source $VIRTUAL_ENV/bin/activate
+            pip install -r requirements.txt
+
+            echo "export TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> ~/.bashrc
+            echo "export VIDEO_CHANNEL_ID=${{ secrets.VIDEO_CHANNEL_ID }}" >> ~/.bashrc
+            source ~/.bashrc
+
+            sudo supervisorctl reread
+            sudo supervisorctl update
+            sudo supervisorctl restart myflaskapp
