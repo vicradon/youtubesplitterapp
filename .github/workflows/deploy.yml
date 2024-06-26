@@ -24,16 +24,16 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           port: ${{ secrets.VM_PORT }}
           script: |
-            if [ ! -d "$APP_PATH/.git" ]; then
-              git clone https://github.com/vicradon/youtubesplitterapp.git $APP_PATH
+            if [ ! -d /home/osi/youtubesplitterapp ]; then
+              git clone https://github.com/vicradon/youtubesplitterapp.git /home/osi/youtubesplitterapp
             else
-              cd $APP_PATH
+              cd /home/osi/youtubesplitterapp
               git pull origin main
             fi
 
-            cd $APP_PATH
+            cd /home/osi/youtubesplitterapp
             python3 -m venv .venv
-            source $APP_PATH/.venv/bin/activate
+            source /home/osi/youtubesplitterapp/.venv/bin/activate
             pip install -r requirements.txt
 
             echo "export TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> ~/.bashrc
