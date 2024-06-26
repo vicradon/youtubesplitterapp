@@ -42,7 +42,13 @@ jobs:
             source ~/.bashrc
 
       - name: Restart Supervisor service
-        run: |
-          supervisorctl reread
-          supervisorctl update   
-          supervisorctl restart $APP_NAME
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_PORT }}
+          script: |
+            supervisorctl reread
+            supervisorctl update   
+            supervisorctl restart $APP_NAME
