@@ -24,7 +24,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           port: ${{ secrets.VM_PORT }}
           script: |
-            if [ ! -d "$APP_PATH" ]; then
+            if [ ! -d "$APP_PATH/.git" ]; then
               git clone https://github.com/vicradon/youtubesplitterapp.git $APP_PATH
             else
               cd $APP_PATH
