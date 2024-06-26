@@ -11,7 +11,6 @@ jobs:
 
     env:
       APP_PATH: ${{ secrets.APP_PATH  }}
-      VIRTUAL_ENV: ${{ secrets.APP_PATH  }}/.venv
 
     steps:
       - name: Checkout code
@@ -33,7 +32,8 @@ jobs:
             fi
 
             cd $APP_PATH
-            source $VIRTUAL_ENV/bin/activate
+            python3 -m venv .venv
+            source $APP_PATH/.venv/bin/activate
             pip install -r requirements.txt
 
             echo "export TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> ~/.bashrc
