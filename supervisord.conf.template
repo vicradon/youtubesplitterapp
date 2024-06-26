@@ -1,0 +1,15 @@
+[program:PROCESS_NAME]
+command=APP_PATH/.venv/bin/python APP_PATH/app.py
+process_name=%(program_name)s
+directory=APP_PATH/
+autostart=True
+autorestart=True
+stderr_logfile=APP_PATH/logs/app.err.log
+stdout_logfile=APP_PATH/logs/app.out.log
+
+      - name: Render Supervisor Config
+        run: |
+          sed -i 's/APP_PATH/$$APP_PATH/g' supervisor.conf.template
+          sed -i 's/PROCESS_NAME/$APP_NAME/g' supervisor.conf.template
+
+          cp supervisor.conf.template /etc/supervisor/conf.d/$APP_NAME.conf

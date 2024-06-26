@@ -5,12 +5,15 @@ on:
     branches:
       - main
 
+env:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     env:
       APP_PATH: /home/osi/youtubesplitterapp
+      APP_NAME: youtubesplitterapp
 
     steps:
       - name: Checkout code
@@ -39,3 +42,9 @@ jobs:
             echo "export TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> ~/.bashrc
             echo "export VIDEO_CHANNEL_ID=${{ secrets.VIDEO_CHANNEL_ID }}" >> ~/.bashrc
             source ~/.bashrc
+
+      - name: Restart Supervisor service
+        run: |
+          supervisorctl reread
+          supervisorctl update   
+          supervisorctl restart $APP_NAME
