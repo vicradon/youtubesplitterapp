@@ -41,7 +41,7 @@ jobs:
             echo "export VIDEO_CHANNEL_ID=${{ secrets.VIDEO_CHANNEL_ID }}" >> ~/.bashrc
             source ~/.bashrc
 
-      - name: Restart Supervisor service
+      - name: Restart App
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VM_HOST }}
@@ -49,6 +49,4 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           port: ${{ secrets.VM_PORT }}
           script: |
-            supervisorctl reread
-            supervisorctl update   
-            supervisorctl restart $APP_NAME
+            pm2 restart youtubesplitterapp
