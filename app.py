@@ -27,7 +27,7 @@ def index():
 
 def download_youtube_video(url, segments):
     try:
-        save_directory = f"/home/user/codes/youtubesplitterapp/output/{str(uuid.uuid4())}"
+        save_directory = f"./output/{str(uuid.uuid4())}"
         os.makedirs(save_directory)
 
         info_filename, video_path = download_video(url, save_directory)
