@@ -29,7 +29,7 @@ jobs:
               git clone https://github.com/vicradon/youtubesplitterapp.git /home/osi/youtubesplitterapp
             else
               cd /home/osi/youtubesplitterapp
-              git pull origin main
+              git pull origin main --force
             fi
 
             cd /home/osi/youtubesplitterapp
