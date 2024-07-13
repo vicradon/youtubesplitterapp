@@ -23,7 +23,6 @@
     <script>
       const segmentsCountInput = document.querySelector("#segments");
       const invalidChars = ["-", "+", "e", ".", "E"];
-      console.log(segmentsCountInput);
       segmentsCountInput.addEventListener("input", function () {
         this.value = this.value.replace(/[e\+\-\.]/gi, "");
       });

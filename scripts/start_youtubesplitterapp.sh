@@ -1,3 +1,3 @@
 #!/bin/bash
 source /home/osi/youtubesplitterapp/.venv/bin/activate
-exec python /home/osi/youtubesplitterapp/app.py
+exec gunicorn -w 4 -b 0.0.0.0:14000 app:app

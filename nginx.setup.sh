@@ -5,7 +5,7 @@ sudo apt update \
 && sudo snap install --classic certbot
 
 servername=youtubedl.osinachi.me
-port=5000
+port=14000
 
 sudo touch /etc/nginx/conf.d/$servername.conf
 sudo tee /etc/nginx/conf.d/$servername.conf > /dev/null <<EOF

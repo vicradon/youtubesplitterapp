@@ -48,7 +48,14 @@ def split_video(videopath, segment_duration):
     output_dir = dir_containing_video + "/parts"
 
     os.makedirs(output_dir)
-    subprocess.run(["ffmpeg", "-i", videopath, "-f", "segment", "-segment_time", str(segment_duration), "-c", "copy", f"{output_dir}/part%03d.mp4"])
+    subprocess.Popen([
+        "ffmpeg",
+        "-i", videopath,
+        "-f", "segment",
+        "-segment_time", str(segment_duration),
+        "-c", "copy",
+        f"{output_dir}/part%03d.mp4"
+    ])
     videopaths = os.listdir(output_dir)
 
     video_title = file_dir_segments[-1].split(".mp4")[0]
@@ -97,7 +104,5 @@ def send_videos_to_telegram(video_paths, parent_dir, video_title):
 
 
 if __name__ == "__main__":
-    if os.getenv('FLASK_ENV') == 'development':
-        app.run(debug=True)
-    else:
-        subprocess.run(["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"])
+    app.run(debug=True)
+        
